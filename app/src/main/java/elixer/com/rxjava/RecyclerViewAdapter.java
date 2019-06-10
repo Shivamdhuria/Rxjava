@@ -11,15 +11,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Adapter used to map a String to a text view.
- */
-public class SimpleStringAdapter extends RecyclerView.Adapter<SimpleStringAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private final Context mContext;
     private final List<String> mStrings = new ArrayList<>();
 
-    public SimpleStringAdapter(Context context) {
+    public RecyclerViewAdapter(Context context) {
         mContext = context;
     }
 
@@ -57,7 +54,7 @@ public class SimpleStringAdapter extends RecyclerView.Adapter<SimpleStringAdapte
 
         public ViewHolder(View view) {
             super(view);
-            mColorDisplay = (TextView) view.findViewById(R.id.color_display);
+            mColorDisplay = (TextView) view.findViewById(R.id.city_display);
         }
     }
 }

@@ -1,7 +1,7 @@
 package elixer.com.rxjava;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -27,7 +27,7 @@ public class MapActivity extends AppCompatActivity {
     private EditText mSearchInput;
     private TextView mNoResultsIndicator;
     private RecyclerView mSearchResults;
-    private SimpleStringAdapter mSearchResultsAdapter;
+    private RecyclerViewAdapter mSearchResultsAdapter;
 
     private PublishSubject<String> mSearchResultsSubject;
     private Subscription mTextWatchSubscription;
@@ -41,10 +41,11 @@ public class MapActivity extends AppCompatActivity {
         listenToSearchInput();
     }
 
+
     private void createObservables() {
         mSearchResultsSubject = PublishSubject.create();
         mTextWatchSubscription = mSearchResultsSubject
-                .debounce(400, TimeUnit.MILLISECONDS)
+//                .debounce(400, TimeUnit.MILLISECONDS)
                 .observeOn(Schedulers.io())
                 .map(new Func1<String, List<String>>() {
                     @Override
@@ -53,10 +54,17 @@ public class MapActivity extends AppCompatActivity {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<String>>() {
+                .subscribe(new Observer<Object>() {
                     @Override
-                    public void onCompleted() {
+                    public void onSubscribe(Disposable d) {
 
+
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+                        {
+                            handleSearchResults(cities);
                     }
 
                     @Override
@@ -69,17 +77,14 @@ public class MapActivity extends AppCompatActivity {
 
                     }
 
-                    @Override
-                    public void onSubscribe(Disposable d) {
 
-                    }
 
-                    @Override
-                    public void onNext(List<String> cities) {
-                        handleSearchResults(cities);
-                    }
+
                 });
     }
+                );
+    }
+
 
     private void handleSearchResults(List<String> cities) {
         if (cities.isEmpty()) {
@@ -125,7 +130,7 @@ public class MapActivity extends AppCompatActivity {
         mNoResultsIndicator = (TextView) findViewById(R.id.no_results_indicator);
         mSearchResults = (RecyclerView) findViewById(R.id.search_results);
         mSearchResults.setLayoutManager(new LinearLayoutManager(this));
-        mSearchResultsAdapter = new SimpleStringAdapter(this);
+        mSearchResultsAdapter = new RecyclerViewAdapter(this);
         mSearchResults.setAdapter(mSearchResultsAdapter);
     }
 
