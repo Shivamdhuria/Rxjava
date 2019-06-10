@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -19,6 +20,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class Concurrency_one extends AppCompatActivity {
+    public static final String TAG = "Main Activity";
     Button buttonStart;
     ProgressBar progressBar;
     private CompositeDisposable disposables;
@@ -72,7 +74,7 @@ public class Concurrency_one extends AppCompatActivity {
 
             @Override
             public void onComplete() {
-
+                Log.d(TAG, "onComplete: ");
             }
         });
     }
