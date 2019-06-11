@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/search_input"
+        android:id="@+id/imput_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -19,13 +19,13 @@
         android:layout_weight="1">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_results"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/no_results_indicator"
+            android:id="@+id/no_results_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|top"

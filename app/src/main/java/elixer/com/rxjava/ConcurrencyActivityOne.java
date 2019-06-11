@@ -19,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class Concurrency_one extends AppCompatActivity {
+public class ConcurrencyActivityOne extends AppCompatActivity {
     public static final String TAG = "Main Activity";
     Button buttonStart;
     ProgressBar progressBar;
