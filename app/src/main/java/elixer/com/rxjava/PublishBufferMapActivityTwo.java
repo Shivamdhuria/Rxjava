@@ -12,16 +12,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-public class MapActivityTwo extends AppCompatActivity {
+public class PublishBufferMapActivityTwo extends AppCompatActivity {
     public static final String TAG = "MapActivity";
     RestClient restClient;
     private EditText mEditTextView;
@@ -29,6 +29,7 @@ public class MapActivityTwo extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private PublishSubject<String> mPublishSubject;
+    private CompositeDisposable disposables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +39,10 @@ public class MapActivityTwo extends AppCompatActivity {
         mEditTextView = findViewById(R.id.imput_edittext);
         mNoResultsTextview = findViewById(R.id.no_results_textview);
         mRecyclerView = findViewById(R.id.recycler_view);
+        disposables = new CompositeDisposable();
         initRecyclerView();
         initObservable();
         listenToSearchInput();
-
-
     }
 
     @SuppressLint("CheckResult")
@@ -56,7 +56,7 @@ public class MapActivityTwo extends AppCompatActivity {
                 .subscribe(new Observer<List<String>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        disposables.add(d);
                     }
 
                     @Override
@@ -129,5 +129,11 @@ public class MapActivityTwo extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposables.clear();
     }
 }

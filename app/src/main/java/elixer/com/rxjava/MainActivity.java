@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         buttonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), MapActivityTwo.class));
+                startActivity(new Intent(v.getContext(), PublishBufferMapActivityTwo.class));
             }
         });
         buttonConcurrency.setOnClickListener(new View.OnClickListener() {
