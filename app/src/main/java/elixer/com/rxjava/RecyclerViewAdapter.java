@@ -20,6 +20,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mContext = context;
     }
 
+    void addItems(List<String> items) {
+       mStrings.addAll(items);
+    }
+
     public void setStrings(List<String> newStrings) {
         mStrings.clear();
         mStrings.addAll(newStrings);

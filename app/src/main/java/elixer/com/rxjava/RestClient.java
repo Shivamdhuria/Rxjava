@@ -1,6 +1,7 @@
 package elixer.com.rxjava;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,11 @@ import java.util.List;
  */
 public class RestClient {
     private Context mContext;
+    String[] cities;
 
     public RestClient(Context context) {
         mContext = context;
+        cities = mContext.getResources().getStringArray(R.array.city_list);
     }
 
     public List<String> getFavoriteTvShows() {
@@ -77,5 +80,23 @@ public class RestClient {
             }
         }
         return toReturn;
+    }
+
+    List<String> getCitiesByPage(int page) {
+
+        try {
+            // "Simulate" the delay of network.
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        List<String> returnCities = new ArrayList<>();
+        int index = page*10;
+        for (int i = index + 0; i < index + 10; i++) {
+            returnCities.add(cities[i]);
+        }
+
+        return returnCities;
     }
 }

@@ -21,7 +21,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-public class PublishBufferMapActivityTwo extends AppCompatActivity {
+public class SearchActivityTwo extends AppCompatActivity {
     public static final String TAG = "MapActivity";
     RestClient restClient;
     private EditText mEditTextView;
@@ -133,7 +133,8 @@ public class PublishBufferMapActivityTwo extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         disposables.clear();
+        mRecyclerView.setAdapter(null);
+        super.onDestroy();
     }
 }

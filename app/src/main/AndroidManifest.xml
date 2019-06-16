@@ -3,13 +3,18 @@
     package="elixer.com.rxjava">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PublishBufferMapActivityTwo"></activity>
+        <activity
+            android:name=".PaginationActivityThree"
+            android:label="@string/title_activity_pagination_three"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".SearchActivityTwo" />
         <activity android:name=".ConcurrencyActivityOne" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">rxjava</string>
+    <string name="title_activity_pagination_three">PaginationActivityThree</string>
 </resources>
