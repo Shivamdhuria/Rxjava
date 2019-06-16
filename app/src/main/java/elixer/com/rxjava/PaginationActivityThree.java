@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,9 +44,7 @@ public class PaginationActivityThree extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
         mPublishProcessor = PublishProcessor.create();
-
         restClient = new RestClient(this);
-
         disposables = new CompositeDisposable();
 
         initRecyclerView();
@@ -59,9 +58,6 @@ public class PaginationActivityThree extends AppCompatActivity {
         disposables.clear();
     }
 
-    /**
-     * setting listener to get callback for load more
-     */
     private void setUpLoadMoreListener() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -85,7 +81,6 @@ public class PaginationActivityThree extends AppCompatActivity {
         mPublishProcessor.onNext(pageNumber);
     }
 
-
     private void initRecyclerView() {
         mAdapter = new RecyclerViewAdapter(this);
         layoutManager = new LinearLayoutManager(this);
@@ -94,10 +89,10 @@ public class PaginationActivityThree extends AppCompatActivity {
 
     }
 
-
     @SuppressLint("CheckResult")
     private void initObservable() {
         Log.d(TAG, "initObservable: init");
+        Disposable disposable =
         mPublishProcessor
                 .doOnNext(page -> {
                     loading = true;
@@ -116,52 +111,16 @@ public class PaginationActivityThree extends AppCompatActivity {
                     progressBar.setVisibility(View.INVISIBLE);
                 });
 
-//                .subscribe(new FlowableSubscriber<List<String>>() {
-//                    @Override
-//                    public void onSubscribe(Subscription s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(List<String> strings) {
-//                        Log.d(TAG, "onNext: .....");
-//                        mAdapter.addItems(strings);
-//                        mAdapter.notifyDataSetChanged();
-//                        loading = false;
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable t) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//                });
-//        disposables.add(disposable);
 
+        disposables.add(disposable);
         mPublishProcessor.onNext(pageNumber);
 
     }
 
-//    private List<String> dataFromNetwork(final int page) {
-//        Log.d(TAG, "dataFromNetwork: data from network");
-//        return restClient.getCitiesByPage(page);
-//
-//    }
-
-    private Single<List<String>> dataFromNetwork(final int page) {
+        private Single<List<String>> dataFromNetwork(final int page) {
+        Log.d(TAG, "dataFromNetwork: data from network");
         return Single.just(true)
-                .delay(2, TimeUnit.SECONDS)
-                .map(value -> {
-                    List<String> items = new ArrayList<>();
-                    for (int i = 1; i <= 10; i++) {
-                        items.add("Item " + (page * 10 + i));
-                    }
-                    return items;
-                });
+                    .map(value -> restClient.getCitiesByPage(page));
+
     }
 }

@@ -34,7 +34,7 @@ public class SearchActivityTwo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_search_two);
         restClient = new RestClient(this);
         mEditTextView = findViewById(R.id.imput_edittext);
         mNoResultsTextview = findViewById(R.id.no_results_textview);
