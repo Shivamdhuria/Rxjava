@@ -9,9 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -71,13 +69,11 @@ public class PaginationActivityThree extends AppCompatActivity {
                 if (!loading
                         && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
                     pageNumber++;
-                    Log.d(TAG, "onScrolled: .....");
                     mPublishProcessor.onNext(pageNumber);
                     loading = true;
                 }
             }
         });
-        Log.d(TAG, "onScrolled: .........");
         mPublishProcessor.onNext(pageNumber);
     }
 
@@ -93,23 +89,19 @@ public class PaginationActivityThree extends AppCompatActivity {
     private void initObservable() {
         Log.d(TAG, "initObservable: init");
         Disposable disposable =
-        mPublishProcessor
-                .doOnNext(page -> {
-                    loading = true;
-                    progressBar.setVisibility(View.VISIBLE);
-                })
-                .concatMapSingle(page -> dataFromNetwork(page)
-                        .subscribeOn(Schedulers.io())
-                        .doOnError(throwable -> {
-                            // handle error
-                        }))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> {
-                    mAdapter.addItems(items);
-                    mAdapter.notifyDataSetChanged();
-                    loading = false;
-                    progressBar.setVisibility(View.INVISIBLE);
-                });
+                mPublishProcessor
+                        .doOnNext(page -> {
+                            loading = true;
+                            progressBar.setVisibility(View.VISIBLE);
+                        })
+                        .concatMapSingle(page -> dataFromNetwork(page))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(items -> {
+                            mAdapter.addItems(items);
+                            mAdapter.notifyDataSetChanged();
+                            loading = false;
+                            progressBar.setVisibility(View.INVISIBLE);
+                        });
 
 
         disposables.add(disposable);
@@ -117,10 +109,11 @@ public class PaginationActivityThree extends AppCompatActivity {
 
     }
 
-        private Single<List<String>> dataFromNetwork(final int page) {
+    private Single<List<String>> dataFromNetwork(final int page) {
         Log.d(TAG, "dataFromNetwork: data from network");
         return Single.just(true)
-                    .map(value -> restClient.getCitiesByPage(page));
+                .map(value -> restClient.getCitiesByPage(page))
+                .subscribeOn(Schedulers.io());
 
     }
 }
